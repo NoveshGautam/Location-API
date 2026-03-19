@@ -39,18 +39,19 @@ app.get('/api/location',  async (req, res) => {
     try {
         console.log(`📡 Analyzing coordinates: ${lat}, ${lng}...`);
 
-        const geoUrl = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`;
-        const geoResponse = await axios.get(geoUrl, {
-            headers: { 'User-Agent': 'NoveshLocationApp/1.0' } 
-        });
+               // 1. Send coordinates to the BigDataCloud Free API
+        const geoUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`;
+        const geoResponse = await axios.get(geoUrl);
 
-        const addressData = geoResponse.data.address;
+        // 2. Extract city and country from their JSON
+        const cityOrTown = geoResponse.data.city || geoResponse.data.locality || "Unknown City";
+        const country = geoResponse.data.countryName;
         
-        const cityOrTown = addressData.city || addressData.town || addressData.village || addressData.state;
-        const country = addressData.country;
+        // Let's create a formatted address since BigDataCloud separates them
+        const fullAddress = `${cityOrTown}, ${geoResponse.data.principalSubdivision}, ${country}`;
 
 
-        res.json({
+               res.json({
             status: "success",
             coordinates: {
                 latitude: lat,
@@ -59,9 +60,10 @@ app.get('/api/location',  async (req, res) => {
             discovered_location: {
                 city: cityOrTown,
                 country: country,
-                full_address: geoResponse.data.display_name
+                full_address: fullAddress
             }
         });
+
 
     } catch (error) {
         console.error("Error identifying location:", error.message);
