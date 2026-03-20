@@ -19,7 +19,7 @@ Converts coordinates into a structured location object.
 - **URL:** `/api/location`
 - **Method:** `GET`
 - **Headers Required:** 
-  - `Authorization: Bearer <your_secret_token>`
+  - `x-api-key: <your_secret_token>`
   - `Content-Type: application/json`
 - **Query Parameters:**
   - `lat` (Required): The latitude coordinate.
@@ -29,7 +29,7 @@ Converts coordinates into a structured location object.
 \`\`\`javascript
 fetch('https://location-api-8rri.onrender.com/api/location?lat=40.71&lng=-74.00', {
     method: 'GET',
-    headers: { 'Authorization': 'Bearer YOUR_SECRET_TOKEN' }
+    headers: { 'x-api-key': 'YOUR_SECRET_TOKEN' }
 })
 \`\`\`
 

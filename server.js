@@ -11,21 +11,20 @@ app.use(express.json());
 
 
 const authenticateToken = (req, res, next) => {
-   
-    const authHeader = req.headers['authorization'];
+    // Look for a simple fixed string in the custom "x-api-key" header
+    const token = req.headers['x-api-key'];
     
-    if (!authHeader) {
-        return res.status(401).json({ error: "Access Denied: No Token Provided." });
+    if (!token) {
+        return res.status(401).json({ error: "Access Denied: No API Key Provided." });
     }
 
-    const token = authHeader.split(' ')[1];
-
     if (token !== process.env.MY_SECRET_TOKEN) {
-        return res.status(403).json({ error: "Access Denied: Invalid Token." });
+        return res.status(403).json({ error: "Access Denied: Invalid API Key." });
     }
 
     next(); 
 };
+
 
 app.get('/api/location', authenticateToken, async (req, res) => {
    
@@ -39,19 +38,15 @@ app.get('/api/location', authenticateToken, async (req, res) => {
     try {
         console.log(`📡 Analyzing coordinates: ${lat}, ${lng}...`);
 
-               // 1. Send coordinates to the BigDataCloud Free API
         const geoUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`;
         const geoResponse = await axios.get(geoUrl);
 
-        // 2. Extract city and country from their JSON
         const cityOrTown = geoResponse.data.city || geoResponse.data.locality || "Unknown City";
         const country = geoResponse.data.countryName;
         
-        // Let's create a formatted address since BigDataCloud separates them
         const fullAddress = `${cityOrTown}, ${geoResponse.data.principalSubdivision}, ${country}`;
 
-
-               res.json({
+              res.json({
             status: "success",
             coordinates: {
                 latitude: lat,
@@ -70,7 +65,6 @@ app.get('/api/location', authenticateToken, async (req, res) => {
         res.status(500).json({ error: "Failed to process location data." });
     }
 });
-
 
 
 app.listen(PORT, () => {
