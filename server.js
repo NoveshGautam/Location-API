@@ -27,7 +27,7 @@ const authenticateToken = (req, res, next) => {
     next(); 
 };
 
-app.get('/api/location',  async (req, res) => {
+app.get('/api/location', authenticateToken, async (req, res) => {
    
     const lat = req.query.lat;
     const lng = req.query.lng;
