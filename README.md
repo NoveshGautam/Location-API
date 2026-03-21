@@ -19,7 +19,7 @@ Converts coordinates into a location object and returns clinical risk advisories
 - **URL:** `/api/location`
 - **Method:** `GET`
 - **Headers Required:** 
-  - `x-api-key: <your_x_API_KEY>`
+  - `x-api-key: <YOUR_API_KEY_HERE>`
   - `x-gemini-key: <your_google_gemini_api_key>`
   - `Content-Type: application/json`
 - **Query Parameters:**
@@ -31,7 +31,7 @@ Converts coordinates into a location object and returns clinical risk advisories
 fetch('https://location-api-8rri.onrender.com/api/location?lat=28.6139&lng=77.2090', {
     method: 'GET',
     headers: { 
-        'x-api-key': 'novesh_production_master_key_8x99Q!',
+        'x-api-key': 'YOUR_API_KEY_HERE',
         'x-gemini-key': 'AIzaS...YOUR_GEMINI_KEY'
     }
 })
