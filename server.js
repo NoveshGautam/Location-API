@@ -138,7 +138,7 @@ app.get('/api/location', authenticateToken, async (req, res) => {
         // B. Load AI using the Client's Provided Key
         const genAI = new GoogleGenerativeAI(clientGeminiKey);
         // const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
         // Strict JSON Array Prompt
         const prompt = `
             Act as a medical epidemiologist. The user is currently in ${cityOrTown}, ${country}.
