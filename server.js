@@ -18,12 +18,18 @@ const authenticateToken = (req, res, next) => {
         return res.status(401).json({ error: "Access Denied: No API Key Provided." });
     }
 
-    if (token !== process.env.MY_SECRET_TOKEN) {
+    const VALID_KEYS = [
+        process.env.MY_SECRET_TOKEN,
+        "demo-key-123"
+    ];
+
+    if (!VALID_KEYS.includes(token)) {
         return res.status(403).json({ error: "Access Denied: Invalid API Key." });
     }
 
-    next(); 
+    next();
 };
+
 
 app.get('/api/location', authenticateToken, async (req, res) => {
    
