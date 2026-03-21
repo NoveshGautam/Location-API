@@ -31,7 +31,7 @@ Converts coordinates into a location object and returns clinical risk advisories
 fetch('https://location-api-8rri.onrender.com/api/location?lat=28.6139&lng=77.2090', {
     method: 'GET',
     headers: { 
-        'x-api-key': 'demo-key-123',
+        'x-api-key': 'novesh_production_master_key_8x99Q!',
         'x-gemini-key': 'AIzaS...YOUR_GEMINI_KEY'
     }
 })
